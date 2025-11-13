@@ -13,7 +13,6 @@ import TeamSection from "./Pages/TeamSection";
 import AllProjects from "./Pages/Projects";
 import AllTeam from "./Pages/AllTeam";
 import AllServices from "./Pages/AllServices";
-import UploadTest from "./Pages/UploadTest";
 import ReviewForm from "./Pages/ReviewForm";
 import TestimonialsSection from "./Pages/TestimonialsSection";
 import { FeaturesSectionDemo } from "./Pages/FeaturesSectionDemo";
@@ -33,7 +32,18 @@ import SidebarDemo from "./Pages/Admin/Sidebar.jsx";
 // Auth
 import ProtectedRoute from "./Component/auth/ProtectedRoute";
 
+
+import { initScrollAnimations } from "./animations/scrollAnimations";
+import { useEffect } from "react";
+import ImageGallery from "./Pages/ImageGallery.jsx";
+import ManageGallery from "./Pages/Admin/ManageGallery.jsx";
+
+
+  
 function App() {
+  useEffect(() => {
+    initScrollAnimations();
+  }, [])
   return (
     <Router>
       {/* Toast Notifications */}
@@ -67,9 +77,9 @@ function App() {
           <Route path="allservices" element={<AllServices />} />
           <Route path="feature" element={<FeaturesSectionDemo />} />
           <Route path="projects" element={<AllProjects />} />
-          <Route path="/upload-test" element={<UploadTest />} />
           <Route path="/review" element={<ReviewForm />} />
           <Route path="/testimonials" element={<TestimonialsSection />} />
+             <Route path="/gallery" element={<ImageGallery />} />
         </Route>
 
         {/* Public Admin Auth Pages */}
@@ -92,6 +102,7 @@ function App() {
           <Route path="team" element={<ManageTeam />} />
           <Route path="services" element={<ManageServices />} />
           <Route path="review" element={<AdminTestimonials />} />
+          <Route path="MangeGallery" element={<ManageGallery />} />
         </Route>
       </Routes>
     </Router>

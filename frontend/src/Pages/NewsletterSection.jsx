@@ -1,13 +1,25 @@
 import { Mail } from "lucide-react";
 import jcb from "../assets/newsletter.jpg";
 import hook from "../assets/hook.png";
+import useScrollReveal from "../Hooks/useScrollReveal";
 
 export default function NewsletterSection() {
+  // Scroll reveal refs
+  const sectionRef = useScrollReveal(); // Section
+  const textRef = useScrollReveal({ delay: 100 }); // Left text + form
+  const imageRef = useScrollReveal({ delay: 200 }); // Right image
+
   return (
-    <section className="relative bg-white py-20 overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="relative bg-white py-20 overflow-hidden reveal"
+    >
       <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-center">
         {/* LEFT: Text + Form */}
-        <div className="relative z-10 text-center md:text-left">
+        <div
+          ref={textRef}
+          className="relative z-10 text-center md:text-left reveal opacity-0 translate-y-8 transition-all duration-700"
+        >
           <p className="text-sm uppercase tracking-wider text-[#0C226B] mb-3">
             — Our Newsletter
           </p>
@@ -25,7 +37,7 @@ export default function NewsletterSection() {
               <input
                 type="email"
                 placeholder="Enter Email Address"
-                className="bg-transparent  border-none outline-none text-gray-800 placeholder-gray-400 text-sm sm:text-base flex-1 w-full sm:w-64"
+                className="bg-transparent border-none outline-none text-gray-800 placeholder-gray-400 text-sm sm:text-base flex-1 w-full sm:w-64"
               />
             </div>
 
@@ -39,9 +51,13 @@ export default function NewsletterSection() {
         </div>
 
         {/* RIGHT: Images */}
-        <div className="relative flex justify-center md:justify-end items-center">
+        <div
+          ref={imageRef}
+          className="relative flex justify-center md:justify-end items-center reveal opacity-0 translate-y-8 transition-all duration-700"
+        >
           {/* Crane Hook */}
-      
+          {/* Uncomment if you want hook */}
+          {/* <img src={hook} alt="Hook" className="absolute top-0 left-0 w-16 sm:w-24" /> */}
 
           {/* Excavator */}
           <img

@@ -1,51 +1,41 @@
 import { ChevronRight } from "lucide-react";
-import { motion } from "framer-motion";
-import jcb from "../assets/jcb.png"; // ensure this is a transparent PNG
+import jcb from "../assets/jcb.png";
+import useScrollReveal from "../Hooks/useScrollReveal";
 
 const steps = [
   {
     step: "STEP 1",
     title: "Consultation & Planning",
-    desc: "We begin by understanding your vision and inspecting the project site to assess feasibility, design preferences, and material requirements. This helps us create a clear plan before we start building.",
+    desc: "We begin by understanding your vision and inspecting the project site to assess feasibility, design preferences, and material requirements.",
   },
   {
     step: "STEP 2",
     title: "Design & Construction",
-    desc: "Our experienced engineers and architects craft detailed designs while our skilled workforce ensures every structure is built with precision, safety, and adherence to industry standards.",
+    desc: "Our experienced engineers and architects craft designs while our workforce ensures safe, precision-built structures.",
   },
   {
     step: "STEP 3",
     title: "Final Inspection & Handover",
-    desc: "After construction, we conduct a full quality check and safety inspection. Once everything meets our standards, we hand over the completed project—on time and ready for use.",
+    desc: "We perform a quality and safety inspection, ensuring the project is ready to use before handover.",
   },
 ];
 
-const containerVariant = {
-  hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.25, ease: "easeOut" },
-  },
-};
-
-const fadeUpVariant = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
-};
-
 export default function SetUpSection() {
+  const sectionRef = useScrollReveal();
+  const headerRef = useScrollReveal();
+  const stepsRef = useScrollReveal();
+
   return (
-    <section className="relative py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden">
-      <motion.div
-        className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8"
-        variants={containerVariant}
-        initial="show"
-        whileInView="show"
-      >
+    <section
+      ref={sectionRef}
+      className="relative py-20 bg-gradient-to-b from-white to-gray-50 overflow-hidden"
+    >
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+
         {/* Header */}
-        <motion.div
-          className="flex flex-col md:flex-row md:items-center md:justify-between mb-12"
-          variants={fadeUpVariant}
+        <div
+          ref={headerRef}
+          className="opacity-0 translate-y-8 transition-all duration-700 flex flex-col md:flex-row md:items-center md:justify-between mb-12"
         >
           <div className="text-center md:text-left">
             <p className="text-blue-900 font-medium mb-2">-- How We Work</p>
@@ -60,23 +50,17 @@ export default function SetUpSection() {
               <ChevronRight className="w-4 h-4" />
             </span>
           </button>
-        </motion.div>
+        </div>
 
-        {/* Steps */}
-        <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative mb-20"
-          variants={containerVariant}
+        {/* Steps Grid */}
+        <div
+          ref={stepsRef}
+          className="opacity-0 translate-y-8 transition-all duration-700 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 relative mb-20"
         >
           {steps.map((item, index) => (
-            <motion.div
+            <div
               key={index}
-              variants={fadeUpVariant}
-              whileHover={{
-                y: -8,
-                boxShadow: "0 8px 20px rgba(0,0,0,0.08)",
-              }}
-              transition={{ duration: 0.3 }}
-              className="relative bg-white border border-gray-200 rounded-2xl shadow-sm p-6 sm:p-8 text-left transition-transform max-w-md mx-auto"
+              className="bg-white border border-gray-200 rounded-2xl shadow-sm p-6 sm:p-8 text-left max-w-md mx-auto transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl"
             >
               <div className="flex items-center gap-3 mb-4">
                 <span className="bg-blue-900 text-white text-xs font-bold px-3 py-1 rounded-full">
@@ -93,18 +77,16 @@ export default function SetUpSection() {
                 {item.title}
               </h3>
               <p className="text-gray-500 text-sm leading-relaxed">{item.desc}</p>
-            </motion.div>
+            </div>
           ))}
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
 
-      {/* Floating Excavator Image */}
-      <motion.img
+      {/* Floating Excavator */}
+      <img
         src={jcb}
         alt="Excavator"
-        className="absolute bottom-0 right-0 sm:right-10 w-40 sm:w-56 md:w-64 lg:w-72 xl:w-80 object-contain pointer-events-none"
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+        className="absolute bottom-0 right-0 sm:right-10 w-40 sm:w-56 md:w-64 lg:w-72 xl:w-80 object-contain pointer-events-none animate-bounce-slow"
       />
     </section>
   );

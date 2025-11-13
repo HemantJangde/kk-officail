@@ -16,7 +16,7 @@ export default function AdminLogin() {
     setMessage("");
 
     try {
-      const res = await axios.post(`/api/admin/login`, { email, password });
+      const res = await axios.post(`https://kk-officail.onrender.com/api/admin/login`, { email, password });
       if (res.data.success) {
         localStorage.setItem("isAdmin", res.data.token);
         setMessage("✅ Login successful!");

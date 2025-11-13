@@ -27,7 +27,7 @@ export default function ManageProjects() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(`/api/projects`);
+      const res = await axios.get(`https://kk-officail.onrender.com/api/projects`);
       setProjects(res.data.projects || []);
     } catch {
       toast.error("Failed to load projects.");
@@ -50,7 +50,7 @@ export default function ManageProjects() {
       Object.keys(form).forEach((key) => formData.append(key, form[key]));
 
       const res = await axios.post(
-        `${API_BASE}/api/projects`,
+        `https://kk-officail.onrender.com/api/projects`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -82,7 +82,7 @@ export default function ManageProjects() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this project?")) return;
     try {
-      await axios.delete(`/api/projects/${id}`);
+      await axios.delete(`https://kk-officail.onrender.com/api/projects/${id}`);
       setProjects((prev) => prev.filter((p) => p._id !== id));
       toast.success("🗑️ Project deleted!");
     } catch {
@@ -99,7 +99,7 @@ export default function ManageProjects() {
       );
 
       const res = await axios.put(
-        `/api/projects/${editProject._id}`,
+        `https://kk-officail.onrender.com/api/projects/${editProject._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );
@@ -147,7 +147,7 @@ export default function ManageProjects() {
           placeholder="Project Title"
           value={form.title}
           onChange={(e) => setForm({ ...form, title: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
         />
 
         {/* Location */}
@@ -156,7 +156,7 @@ export default function ManageProjects() {
           placeholder="Location"
           value={form.location}
           onChange={(e) => setForm({ ...form, location: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
         />
 
         {/* Description */}
@@ -165,7 +165,7 @@ export default function ManageProjects() {
           rows="3"
           value={form.desc}
           onChange={(e) => setForm({ ...form, desc: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500 md:col-span-2"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500 md:col-span-2"
         />
 
         {/* Area */}
@@ -174,14 +174,14 @@ export default function ManageProjects() {
           placeholder="Area (sq.ft)"
           value={form.area}
           onChange={(e) => setForm({ ...form, area: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
         />
 
         {/* Duration */}
         <select
           value={form.duration}
           onChange={(e) => setForm({ ...form, duration: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
         >
           <option value="">Select Duration</option>
           <option>1 Month</option>
@@ -203,10 +203,10 @@ export default function ManageProjects() {
         <select
           value={form.year}
           onChange={(e) => setForm({ ...form, year: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
         >
           <option value="">Select Year</option>
-          {Array.from({ length: 10 }, (_, i) => {
+          {Array.from({ length: 20 }, (_, i) => {
             const y = new Date().getFullYear() - i;
             return (
               <option key={y} value={y}>
@@ -220,7 +220,7 @@ export default function ManageProjects() {
         <select
           value={form.type}
           onChange={(e) => setForm({ ...form, type: e.target.value })}
-          className="border border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
+          className="border text-white border-gray-300 rounded-lg p-2 text-sm focus:ring-2 focus:ring-orange-500"
         >
           <option value="">Select Type</option>
           <option>Residential</option>
@@ -234,7 +234,7 @@ export default function ManageProjects() {
         <div className="col-span-full flex flex-col items-center border-2 border-inset border-orange-400 rounded-lg p-4 cursor-pointer hover:bg-orange-50/40 transition">
           <label className="cursor-pointer flex flex-col items-center gap-2">
             <UploadCloud size={28} className="text-orange-500" />
-            <span className="text-sm text-gray-700">Upload Image</span>
+            <span className="text-sm text-white">Upload Image</span>
             <input type="file" hidden onChange={handleImageChange} />
           </label>
           {preview && (

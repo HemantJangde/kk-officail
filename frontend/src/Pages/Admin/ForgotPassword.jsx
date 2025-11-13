@@ -6,12 +6,11 @@ export default function ForgotPassword() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const navigate = useNavigate();
-  const API_BASE = import.meta.env.VITE_API_BASE_URL;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`/api/admin/forgot-password`, { email });
+      const res = await axios.post(`https://kk-officail.onrender.com/api/admin/forgot-password`, { email });
       setMessage(res.data.message);
       navigate("/admin/reset-password", { state: { email } });
     } catch (err) {

@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Trash2, Edit3, PlusCircle, Loader2 } from "lucide-react";
 import StarRatingInput from "../StarRatingInput";
+import useScrollReveal from "../../Hooks/useScrollReveal";
 
 
 export default function AdminTestimonials() {
+    const sectionRef = useScrollReveal();
   const [testimonials, setTestimonials] = useState([]);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -19,7 +21,7 @@ export default function AdminTestimonials() {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await axios.get(`/api/testimonials`);
+      const res = await axios.get(`https://kk-officail.onrender.com/api/testimonials`);
       setTestimonials(res.data);
     } catch (error) {
       console.error("Error fetching testimonials:", error);
@@ -49,18 +51,18 @@ export default function AdminTestimonials() {
     try {
       const data = new FormData();
       data.append("name", formData.name);
-      data.append("role", formData.role);
+      data.append("role", "Happy client");
       data.append("title", formData.title);
       data.append("feedback", formData.feedback);
       data.append("rating", formData.rating);
       if (formData.image) data.append("image", formData.image);
 
       if (editingId) {
-        await axios.put(`/api/testimonials/${editingId}`, data, {
+        await axios.put(`https://kk-officail.onrender.com/api/testimonials/${editingId}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        await axios.post(`/api/testimonials`, data, {
+        await axios.post(`https://kk-officail.onrender.com/api/testimonials`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -98,7 +100,7 @@ export default function AdminTestimonials() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      await axios.delete(`/api/testimonials/${id}`);
+      await axios.delete(`https://kk-officail.onrender.com/api/testimonials/${id}`);
       fetchTestimonials();
     } catch (error) {
       console.error("Error deleting testimonial:", error);
@@ -106,7 +108,9 @@ export default function AdminTestimonials() {
   };
 
   return (
-    <section className="min-h-screen bg-[#0C226B]/10/10 text-white p-6">
+    <section 
+      ref={sectionRef}
+    className="min-h-screen bg-[#0C226B]/10/10 text-white p-6">
       <div className="max-w-6xl mx-auto">
         <h2 className="text-3xl font-bold text-center mb-8 text-orange-500">
      Testimonials
@@ -127,14 +131,14 @@ export default function AdminTestimonials() {
               required
               className="p-3 rounded-md bg-[#0C226B]/10 text-white placeholder-gray-300 outline-none"
             />
-            <input
+            {/* <input
               type="text"
               name="role"
               placeholder="Client Role"
               value={formData.role}
               onChange={handleChange}
               className="p-3 rounded-md bg-[#0C226B]/10 text-white placeholder-gray-300 outline-none"
-            />
+            /> */}
             <input
               type="text"
               name="title"
@@ -195,7 +199,8 @@ export default function AdminTestimonials() {
         </form>
 
         {/* Testimonials List */}
-        <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div
+         className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {testimonials.map((t) => (
             <div
               key={t._id}

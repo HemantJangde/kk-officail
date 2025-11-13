@@ -1,5 +1,5 @@
 import { Facebook, Twitter, Linkedin, Instagram, Send, MessageCircle, LucideYoutube } from "lucide-react";
-import logo from "../assets/KKlogo2.jpg";
+import logo from "../assets/kklogo.jpeg";
 const socialLinks = [
     { Icon: Facebook, url: "https://www.facebook.com/share/1CTPxjQDWR/" },  
    
@@ -7,7 +7,7 @@ const socialLinks = [
   ];
 export default function Footer() {
   // Replace this number with KK Construction’s WhatsApp business number
-  const whatsappNumber = "8319182281"; // Example: 91 for India + number
+  const whatsappNumber = "+918319182281"; // Example: 91 for India + number
   const message = "Hello KK Construction! I’d like to know more about your services.";
 
   const handleWhatsAppClick = () => {

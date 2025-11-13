@@ -11,7 +11,7 @@ import {
   X,
   Youtube,
 } from "lucide-react";
-import Logo from "../assets/KKlogo2.jpg";
+import Logo from "../assets/kklogo.jpeg";
 const socialLinks = [
     { Icon: Facebook, url: "https://www.facebook.com/share/1CTPxjQDWR/" },  
    
@@ -110,6 +110,7 @@ export default function Navbar() {
               About
             </Link>
           </li>
+          
           <li>
             <Link
               to="/allservices"
@@ -118,9 +119,15 @@ export default function Navbar() {
               Services
             </Link>
           </li>
+          
           <li>
             <Link to="/projects" className="hover:text-orange-500 transition">
               Projects
+            </Link>
+          </li>
+           <li>
+            <Link  to ="/gallery" className="hover:text-orange-500 transition">
+            Gallery
             </Link>
           </li>
           <li>
@@ -128,6 +135,7 @@ export default function Navbar() {
               Contact
             </Link>
           </li>
+         
         </ul>
 
         {/* CTA Button */}

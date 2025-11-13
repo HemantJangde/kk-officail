@@ -13,9 +13,7 @@ import TeamSection from "./TeamSection";
 import TestimonialsSection from "./TestimonialsSection";
 import BlogSection from "./BlogSection";
 import FAQSection from "./FAQSection";
-import NewsletterSection from "./NewsletterSection";
-import ReviewSection from "./ReviewSection";
-import ReviewForm from "./ReviewForm";
+import NewsletterSection from "./NewsletterSection";  
 
 const Home = () => {
   const icons = [WifiCog, UserCog, Toilet, ScanFace, Ghost];
@@ -23,13 +21,24 @@ const Home = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check if loader was already shown before
+    const hasLoadedBefore = localStorage.getItem("hasLoaded");
+
+    if (hasLoadedBefore) {
+      setLoading(false);
+      return;
+    }
+
     // Rotate icons smoothly
     const iconInterval = setInterval(() => {
       setCurrentIcon((prev) => (prev + 1) % icons.length);
     }, 700);
 
-    // Simulate content loading (e.g., data fetching)
-    const timer = setTimeout(() => setLoading(false), 3000);
+    // Simulate first-time loading
+    const timer = setTimeout(() => {
+      setLoading(false);
+      localStorage.setItem("hasLoaded", "true");
+    }, 3000);
 
     return () => {
       clearInterval(iconInterval);
@@ -75,15 +84,15 @@ const Home = () => {
             <Icon className="w-14 h-14 text-orange-500 drop-shadow-lg" />
           </motion.div>
         </AnimatePresence>
-
-     
       </motion.div>
     );
   }
 
   return (
     <>
-      <HeroSection className="mt-30" />
+      <HeroSection className="mt-20" />
+  
+     
       <AboutSection />
       <ServicesSection />
       <SetUpSection />
@@ -92,11 +101,9 @@ const Home = () => {
       <ContactUs />
       <TeamSection />
       <TestimonialsSection />
-      {/* <ReviewForm/> */}
       <BlogSection />
       <FAQSection />
       <NewsletterSection />
-      {/* <ReviewSection/> */}
     </>
   );
 };

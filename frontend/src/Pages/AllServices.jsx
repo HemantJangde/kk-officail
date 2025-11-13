@@ -1,73 +1,67 @@
 // src/Pages/AllServices.jsx
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { Loader, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+import axios from "axios";
+import useScrollReveal from "../Hooks/useScrollReveal"; // ✅ scroll reveal hook
 
 export default function AllServices() {
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedService, setSelectedService] = useState(null);
-const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
-console.log("api base",API_BASE);
 
+  // ✅ Add reveal refs
+  const sectionRef = useScrollReveal();
+  const titleRef = useScrollReveal();
+  const gridRef = useScrollReveal();
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get('/api/services');
+        const res = await axios.get(
+          "https://kk-officail.onrender.com/api/services"
+        );
+        console.log("allservice ", services);
         setServices(res.data.services || []);
       } catch (err) {
-        console.error("Error fetching all services:", err);
+        console.error("❌ Error fetching all services:", err);
       } finally {
         setLoading(false);
       }
     };
     fetchServices();
   }, []);
-
   return (
-    <section className="py-20 bg-gray-50 text-center overflow-hidden mt-10">
-   
-      <motion.div
-        className="max-w-6xl mx-auto px-4"
-        initial="show"
-        animate="show"
-        variants={{ show: { transition: { staggerChildren: 0.2 } } }}
-      >
-        <motion.h2
-          className="text-3xl md:text-4xl font-bold text-gray-900 mb-12"
-          variants={fadeUp}
+    <section
+      ref={sectionRef}
+      className="py-20 bg-gray-50 text-center overflow-hidden mt-10 reveal-section"
+    >
+      <div className="max-w-6xl mx-auto px-4">
+        {/* Heading */}
+        <h2
+          ref={titleRef}
+          className="opacity-0 translate-y-8 transition-all duration-700 text-3xl md:text-4xl font-bold text-gray-900 mb-12"
         >
           All <span className="text-orange-500">Services</span>
-        </motion.h2>
+        </h2>
 
         {loading ? (
           <div className="flex justify-center py-20">
             <Loader className="animate-spin text-orange-500" size={32} />
           </div>
         ) : services.length > 0 ? (
-          <motion.div
-            className="grid md:grid-cols-3 gap-8"
-            variants={{ show: { transition: { staggerChildren: 0.15 } } }}
+          <div
+            ref={gridRef}
+            className="opacity-0 translate-y-8 transition-all duration-700 grid md:grid-cols-3 gap-8"
           >
             {services.map((service) => (
-              <motion.div
+              <div
                 key={service._id}
-                variants={fadeUp}
-                whileHover={{ y: -5 }}
-                className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-100 cursor-pointer"
+                className="bg-white shadow-lg rounded-2xl overflow-hidden border border-gray-100 cursor-pointer hover:-translate-y-2 transition-transform"
                 onClick={() => setSelectedService(service)}
               >
                 <div
-                  className="h-40 bg-cover bg-center relative"
-                  style={{
-                    backgroundImage: `url(${service.image})`,
-                  }}
+                  className="h-40 bg-cover bg-center"
+                  style={{ backgroundImage: `url(${service.image})` }}
                 ></div>
                 <div className="pt-6 pb-6 px-6">
                   <h3 className="text-lg font-semibold mb-2 text-gray-900">
@@ -76,23 +70,20 @@ console.log("api base",API_BASE);
                   <p className="text-gray-500 text-sm mb-4 line-clamp-3">
                     {service.desc}
                   </p>
-                  {/* <button className="text-sm text-orange-500 font-medium hover:underline">
-                    Learn more →
-                  </button> */}
                 </div>
-              </motion.div>
+              </div>
             ))}
-          </motion.div>
+          </div>
         ) : (
           <p className="text-gray-500">No services available.</p>
         )}
-      </motion.div>
+      </div>
 
-      {/* ✅ Transparent Modal (same design) */}
+      {/* Modal */}
       <AnimatePresence>
         {selectedService && (
           <motion.div
-            className="fixed inset-0 bg-black/20 flex justify-center items-center z-50 backdrop-blur-sm p-4"
+            className="fixed inset-0 bg-black/40 flex justify-center items-center z-50 backdrop-blur-sm p-4"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -102,11 +93,10 @@ console.log("api base",API_BASE);
               initial={{ scale: 0.8, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.8, opacity: 0 }}
-              transition={{ duration: 0.3 }}
             >
               <button
                 onClick={() => setSelectedService(null)}
-                className="absolute top-4 right-4 text-gray-500 hover:text-orange-500 transition"
+                className="absolute top-4 right-4 text-gray-600 hover:text-orange-500 transition"
               >
                 <X className="w-6 h-6" />
               </button>
@@ -114,12 +104,7 @@ console.log("api base",API_BASE);
               <div className="grid md:grid-cols-2">
                 <div
                   className="h-80 bg-cover bg-center"
-                  style={{
-                    backgroundImage: `url(${
-                      selectedService.image ||
-                      "https://via.placeholder.com/500x400"
-                    })`,
-                  }}
+                  style={{ backgroundImage: `url(${selectedService.image})` }}
                 ></div>
 
                 <div className="p-6 flex flex-col justify-center">
@@ -129,7 +114,7 @@ console.log("api base",API_BASE);
                   <p className="text-gray-600 mb-4 text-sm">
                     {selectedService.desc}
                   </p>
-                  <p className="text-gray-700 leading-relaxed text-sm">
+                  <p className="text-gray-700 text-sm">
                     {selectedService.details ||
                       "This service is crafted with precision, ensuring quality and satisfaction in every project we handle."}
                   </p>

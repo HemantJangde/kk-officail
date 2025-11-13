@@ -7,7 +7,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://kk-officail.onrender.com/",
+        target: "http://kk-.onrender.com/",
         changeOrigin: true,
         secure: false,
       },

@@ -2,15 +2,21 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Star } from "lucide-react";
 import { motion } from "framer-motion";
-import { useNavigate } from "react-router-dom"; // ✅ import navigation
+import { useNavigate } from "react-router-dom";
+import useScrollReveal from "../Hooks/useScrollReveal"; // ✅ Add ScrollReveal hook
 
 export default function TestimonialsSection() {
-  const navigate = useNavigate(); // ✅ navigation hook
+  const navigate = useNavigate();
   const [testimonials, setTestimonials] = useState([]);
+
+  // ✅ ScrollReveal Refs
+  const sectionRef = useScrollReveal();
+  const headingRef = useScrollReveal({ delay: 150 });
+  const sliderRef = useScrollReveal({ delay: 300 });
 
   useEffect(() => {
     axios
-      .get('/api/testimonials')
+      .get("https://kk-officail.onrender.com/api/testimonials")
       .then((res) => setTestimonials(res.data))
       .catch((err) => console.error("Error fetching testimonials:", err));
   }, []);
@@ -23,21 +29,24 @@ export default function TestimonialsSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-[#0C226B] text-white overflow-hidden">
+    <section
+      ref={sectionRef}
+      className="py-16 md:py-24 bg-[#0C226B] text-white overflow-hidden reveal"
+    >
       <div className="max-w-6xl mx-auto px-4 md:px-6 text-center">
-        {/* Section Heading */}
-        <p className="text-orange-500 font-medium mb-3 text-sm md:text-base">
-          Testimonials
-        </p>
-        <h2 className="text-2xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight">
-          Experience Shared by <br />
-          <span className="text-orange-500">Our Clients</span>
-        </h2>
+        {/* Header */}
+        <div ref={headingRef} className="reveal">
+          <p className="text-orange-500 font-medium mb-3 text-sm md:text-base">
+            Testimonials
+          </p>
+          <h2 className="text-2xl md:text-4xl font-bold mb-6 md:mb-10 leading-tight">
+            Experience Shared by <br />
+            <span className="text-orange-500">Our Clients</span>
+          </h2>
+        </div>
 
-      
-
-        {/* Infinite Moving Wrapper */}
-        <div className="relative w-full overflow-hidden">
+        {/* Infinite Slider */}
+        <div ref={sliderRef} className="relative w-full overflow-hidden reveal">
           <motion.div
             className="flex gap-6 md:gap-8"
             animate={{ x: ["0%", "-50%"] }}
@@ -47,9 +56,9 @@ export default function TestimonialsSection() {
               <div
                 key={i}
                 className="bg-[#122C7E] rounded-2xl p-5 md:p-6 flex-shrink-0 shadow-lg hover:shadow-xl transition-all duration-300
-                  min-w-[250px] sm:min-w-[280px] md:min-w-[320px] max-w-[320px] text-left"
+                min-w-[250px] sm:min-w-[280px] md:min-w-[320px] max-w-[320px] text-left"
               >
-                {/* Rating */}
+                {/* Stars */}
                 <div className="flex items-center mb-3">
                   {[...Array(t.rating || 5)].map((_, idx) => (
                     <Star
@@ -69,11 +78,11 @@ export default function TestimonialsSection() {
                   {t.feedback}
                 </p>
 
-                {/* User Info */}
+                {/* User */}
                 <div className="flex items-center gap-3 md:gap-4">
                   <img
                     src={t.image}
-                    className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover "
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-full object-cover"
                   />
                   <div>
                     <p className="font-semibold text-sm md:text-base text-white">
@@ -86,15 +95,15 @@ export default function TestimonialsSection() {
             ))}
           </motion.div>
         </div>
-        {/* Small Button to Navigate to Review Form */}
+
+        {/* Review Button */}
         <button
           onClick={() => navigate("/review")}
-          className="mt-30 bg-orange-500  hover:bg-orange-600 text-white px-4 py-2 rounded-md text-sm md:text-base transition-all duration-300"
+          className="mt-10 bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-md text-sm md:text-base transition-all duration-300"
         >
           Submit Your Review
         </button>
       </div>
-      
     </section>
   );
 }

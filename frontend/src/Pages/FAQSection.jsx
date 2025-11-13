@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Plus, Minus, MessageSquare, Phone } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import useScrollReveal from "../Hooks/useScrollReveal";
 
 export default function FAQSection() {
   const [openIndex, setOpenIndex] = useState(null);
@@ -38,31 +39,19 @@ export default function FAQSection() {
     },
   ];
 
-  // Animation variants
-  const containerVariant = {
-    hidden: { opacity: 0 },
-    show: {
-      opacity: 10,
-      transition: { staggerChildren: 0.2, },
-    },
-  };
-
-  const fadeUpVariant = {
-    hidden: { opacity: 0, y: 40 },
-    show: { opacity: 1, y: 0, transition: { duration: 1, } },
-  };
+  // Scroll reveal refs
+  const sectionRef = useScrollReveal(); // section reveal
+  const faqRefs = faqs.map(() => useScrollReveal({ delay: 100 })); // FAQ cards
+  const contactRefs = [useScrollReveal({ delay: 200 }), useScrollReveal({ delay: 300 })]; // Right-side boxes
 
   return (
-    <section className="py-20 bg-gray-50 text-[#0C226B] overflow-hidden">
-      <motion.div
-        className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-10 items-start"
-        variants={containerVariant}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
-      >
+    <section
+      ref={sectionRef}
+      className="py-20 bg-gray-50 text-[#0C226B] overflow-hidden reveal"
+    >
+      <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-3 gap-10 items-start">
         {/* Left: FAQ Accordion */}
-        <motion.div className="md:col-span-2" variants={fadeUpVariant}>
+        <div className="md:col-span-2">
           <p className="text-orange-500 font-medium mb-2">FAQs</p>
           <h2 className="text-3xl md:text-4xl font-bold mb-10">
             Questions? <span className="text-orange-500">Look here.</span>
@@ -70,12 +59,10 @@ export default function FAQSection() {
 
           <div className="space-y-4">
             {faqs.map((faq, index) => (
-              <motion.div
+              <div
                 key={index}
-                variants={fadeUpVariant}
-                whileHover={{ scale: 1.01 }}
-                transition={{ type: "spring", stiffness: 200 }}
-                className={`rounded-2xl p-5 transition-all duration-300 cursor-pointer ${
+                ref={faqRefs[index]}
+                className={`rounded-2xl p-5 transition-all duration-300 cursor-pointer reveal ${
                   openIndex === index
                     ? "bg-[#0C226B] text-white shadow-lg"
                     : "bg-white text-[#0C226B] shadow-sm hover:shadow-md"
@@ -84,7 +71,6 @@ export default function FAQSection() {
                   setOpenIndex(openIndex === index ? null : index)
                 }
               >
-                {/* Question */}
                 <div className="flex justify-between items-center w-full text-left font-semibold text-lg">
                   {faq.question}
                   {openIndex === index ? (
@@ -94,7 +80,6 @@ export default function FAQSection() {
                   )}
                 </div>
 
-                {/* Animated Answer */}
                 <AnimatePresence initial={false}>
                   {openIndex === index && (
                     <motion.p
@@ -109,20 +94,16 @@ export default function FAQSection() {
                     </motion.p>
                   )}
                 </AnimatePresence>
-              </motion.div>
+              </div>
             ))}
           </div>
-        </motion.div>
+        </div>
 
         {/* Right: Contact Info */}
-        <motion.div
-          className="space-y-6"
-          variants={fadeUpVariant}
-          transition={{ delay: 0.2 }}
-        >
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="bg-[#0C226B] text-white p-8 rounded-2xl shadow-md"
+        <div className="space-y-6 md:col-span-1">
+          <div
+            ref={contactRefs[0]}
+            className="bg-[#0C226B] text-white p-8 rounded-2xl shadow-md reveal"
           >
             <div className="flex items-center gap-3 mb-4">
               <div className="bg-orange-500 p-3 rounded-full">
@@ -136,30 +117,24 @@ export default function FAQSection() {
               Our team is ready to assist with all your queries and ensure a
               quick response.
             </p>
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium"
-            >
+            <button className="bg-orange-500 hover:bg-orange-600 text-white px-6 py-3 rounded-full font-medium">
               Contact Us
-            </motion.button>
-          </motion.div>
+            </button>
+          </div>
 
-          <motion.div
-            whileHover={{ y: -4 }}
-            className="bg-white shadow-md p-6 rounded-2xl text-center"
+          <div
+            ref={contactRefs[1]}
+            className="bg-white shadow-md p-6 rounded-2xl text-center reveal"
           >
             <div className="flex flex-col items-center">
               <Phone className="w-8 h-8 text-orange-500 mb-3" />
               <p className="text-sm text-gray-500">Your Comfort, Our Priority</p>
-              <h3 className="font-bold text-2xl text-[#0C226B]">
-                24/7 Service
-              </h3>
+              <h3 className="font-bold text-2xl text-[#0C226B]">24/7 Service</h3>
               <p className="text-gray-500 text-sm">+91 83191 82281</p>
             </div>
-          </motion.div>
-        </motion.div>
-      </motion.div>
+          </div>
+        </div>
+      </div>
     </section>
   );
 }

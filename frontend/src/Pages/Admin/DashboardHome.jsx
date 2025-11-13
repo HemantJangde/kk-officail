@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Users, Mail, FileText, Hammer } from "lucide-react";
+import { Users, Mail, FileText, Hammer, Star, Image as ImageIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -11,8 +11,10 @@ export default function DashboardHome() {
     services: 0,
     team: 0,
     messages: 0,
+    testimonials: 0,
+    avgRating: 0,
+    totalImages: 0,
   });
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -25,18 +27,43 @@ export default function DashboardHome() {
     try {
       setLoading(true);
 
-      const [projectsRes, servicesRes, teamRes, contactsRes] = await Promise.all([
-        axios.get(`${API_BASE}/api/projects`),
-        axios.get(`${API_BASE}/api/services`),
-        axios.get(`${API_BASE}/api/team`),
-        axios.get(`${API_BASE}/api/all`),
+      const [
+        projectsRes,
+        servicesRes,
+        teamRes,
+        contactsRes,
+        testimonialsRes,
+        galleryRes,
+      ] = await Promise.all([
+        axios.get(`https://kk-officail.onrender.com/api/projects`),
+        axios.get(`https://kk-officail.onrender.com/api/services`),
+        axios.get(`https://kk-officail.onrender.com/api/team`),
+        axios.get(`https://kk-officail.onrender.com/api/all`),
+        axios.get(`https://kk-officail.onrender.com/api/testimonials`),
+        axios.get(`https://kk-officail.onrender.com/api/gallery`), // change to your deployed link if hosted
       ]);
+
+      const testimonials = testimonialsRes.data || [];
+      const totalTestimonials = testimonials.length;
+      const avgRating =
+        totalTestimonials === 0
+          ? 0
+          : (
+              testimonials.reduce((sum, t) => sum + Number(t.rating || 0), 0) /
+              totalTestimonials
+            ).toFixed(1);
+
+      const galleryData = Array.isArray(galleryRes.data) ? galleryRes.data : [];
+      const totalImages = galleryData.length;
 
       setStats({
         projects: projectsRes.data?.projects?.length || 0,
         services: servicesRes.data?.services?.length || 0,
         team: teamRes.data?.team?.length || 0,
         messages: contactsRes.data?.data?.length || 0,
+        testimonials: totalTestimonials,
+        avgRating,
+        totalImages,
       });
     } catch (err) {
       console.error("Dashboard stats fetch error:", err);
@@ -46,7 +73,6 @@ export default function DashboardHome() {
     }
   };
 
-  // 🌀 Loading animation
   if (loading) {
     return (
       <div className="fixed inset-0 bg-gradient-to-br from-[#0C226B] via-[#132d82] to-[#1c3e9d] flex flex-col items-center justify-center text-white z-50">
@@ -55,7 +81,9 @@ export default function DashboardHome() {
           transition={{ repeat: Infinity, duration: 1.2, ease: "linear" }}
           className="w-14 h-14 border-4 border-orange-400 border-t-transparent rounded-full mb-4"
         />
-        <p className="text-lg font-semibold tracking-wide">Loading Dashboard...</p>
+        <p className="text-lg font-semibold tracking-wide">
+          Loading Dashboard...
+        </p>
       </div>
     );
   }
@@ -89,12 +117,31 @@ export default function DashboardHome() {
       color: "from-pink-400/20 to-pink-100/10",
       link: "/admin/dashboard/contacts",
     },
+    {
+      label: "Gallery Images",
+      value: stats.totalImages,
+      icon: <ImageIcon size={28} />,
+      color: "from-green-400/20 to-green-100/10",
+      link: "/admin/dashboard/gallery",
+    },
+    {
+      label: "Total Testimonials",
+      value: stats.testimonials,
+      icon: <Star size={28} />,
+      color: "from-yellow-400/20 to-yellow-100/10",
+      link: "/admin/dashboard/review",
+    },
+    {
+      label: "Average Rating",
+      value: stats.avgRating,
+      icon: <Star size={28} />,
+      color: "from-yellow-400/20 to-yellow-100/10",
+      link: "/admin/dashboard/review",
+    },
   ];
 
   return (
-    <div
-      className="min-h-screen bg-transparent from-[#0C226B] via-[#1a2e75] to-[#263b8c] p-4 sm:p-6 md:p-10 relative overflow-hidden"
-    >
+    <div className="min-h-screen bg-gradient from-[#0C226B] via-[#1a2e75] to-[#263b8c] p-4 sm:p-6 md:p-10 relative overflow-hidden">
       {/* Floating Background Shapes */}
       <motion.div
         className="absolute -top-10 right-10 w-72 h-72 bg-orange-500/10 rounded-full blur-3xl"
@@ -112,12 +159,12 @@ export default function DashboardHome() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-3xl md:text-4xl font-bold text-black/50 drop-shadow-lg text-center md:text-left"
+          className="text-3xl md:text-4xl font-bold text-white drop-shadow-lg text-center md:text-left"
         >
           Admin Dashboard Overview
         </motion.h2>
 
-        {/* Responsive Cards */}
+        {/* Responsive Stat Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 mt-6">
           {cardData.map((item, i) => (
             <motion.div
@@ -133,8 +180,10 @@ export default function DashboardHome() {
             >
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm sm:text-base text-black/35">{item.label}</p>
-                  <h3 className="text-3xl sm:text-4xl font-extrabold text-black/70 mt-1">
+                  <p className="text-sm sm:text-base text-white">
+                    {item.label}
+                  </p>
+                  <h3 className="text-3xl sm:text-4xl font-extrabold text-white mt-1">
                     {item.value}
                   </h3>
                 </div>

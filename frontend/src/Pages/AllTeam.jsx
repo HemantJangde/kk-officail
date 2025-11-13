@@ -2,17 +2,19 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Facebook, Twitter, Loader, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import useScrollReveal from "../Hooks/useScrollReveal"; // ✅ import hook
+
 export default function AllTeam() {
   const [team, setTeam] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedMember, setSelectedMember] = useState(null);
-  const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 
+  const sectionRef = useScrollReveal();
 
   useEffect(() => {
     const fetchAllTeam = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/team`);
+        const res = await axios.get(`https://kk-officail.onrender.com/api/team`);
         const allTeam = res.data?.team || [];
 
         const sortedTeam = allTeam.sort(
@@ -31,7 +33,9 @@ export default function AllTeam() {
   }, []);
 
   return (
-    <section className="py-20 bg-white min-h-screen">
+    <section
+     ref={sectionRef}
+    className="py-20 bg-white min-h-screen mt-10">
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-12">
