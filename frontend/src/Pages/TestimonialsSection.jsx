@@ -16,7 +16,7 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     axios
-      .get("https://kk-officail.onrender.com/api/testimonials")
+      .get(`${import.meta.env.VITE_API_URL}/testimonials`)
       .then((res) => setTestimonials(res.data))
       .catch((err) => console.error("Error fetching testimonials:", err));
   }, []);

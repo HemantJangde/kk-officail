@@ -23,7 +23,7 @@ export default function ManageTeam() {
   const fetchTeam = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`https://kk-officail.onrender.com/api/team`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/team`);
       setTeam(res.data.team);
     } catch (error) {
       toast.error("Failed to fetch team members");
@@ -69,13 +69,13 @@ export default function ManageTeam() {
 
       if (editingMember) {
         await axios.put(
-          `https://kk-officail.onrender.com/api/team/${editingMember._id}`,
+          `${import.meta.env.VITE_API_URL}/team/${editingMember._id}`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         toast.success("Team member updated!");
       } else {
-        await axios.post(`https://kk-officail.onrender.com/api/team`, formData, {
+        await axios.post(`${import.meta.env.VITE_API_URL}/team`, formData, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Team member added!");
@@ -98,7 +98,7 @@ export default function ManageTeam() {
     if (!window.confirm("Are you sure you want to delete this member?")) return;
     setLoading(true);
     try {
-      await axios.delete(`https://kk-officail.onrender.com/api/team/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/team/${id}`);
       toast.success("Team member deleted!");
       await fetchTeam();
     } catch {

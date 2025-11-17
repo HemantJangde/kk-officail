@@ -16,7 +16,7 @@ export default function CompletedProjects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get(`https://kk-officail.onrender.com/api/projects`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/projects`);
         setProjects(res.data.projects || []);
       } catch (err) {
         console.error("Error loading projects:", err);

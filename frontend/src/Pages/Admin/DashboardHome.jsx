@@ -35,12 +35,12 @@ export default function DashboardHome() {
         testimonialsRes,
         galleryRes,
       ] = await Promise.all([
-        axios.get(`https://kk-officail.onrender.com/api/projects`),
-        axios.get(`https://kk-officail.onrender.com/api/services`),
-        axios.get(`https://kk-officail.onrender.com/api/team`),
-        axios.get(`https://kk-officail.onrender.com/api/all`),
-        axios.get(`https://kk-officail.onrender.com/api/testimonials`),
-        axios.get(`https://kk-officail.onrender.com/api/gallery`), // change to your deployed link if hosted
+        axios.get(`${import.meta.env.VITE_API_URL}/projects`),
+        axios.get(`${import.meta.env.VITE_API_URL}/services`),
+        axios.get(`${import.meta.env.VITE_API_URL}/team`),
+        axios.get(`${import.meta.env.VITE_API_URL}/all`),
+        axios.get(`${import.meta.env.VITE_API_URL}/testimonials`),
+        axios.get(`${import.meta.env.VITE_API_URL}/gallery`), // change to your deployed link if hosted
       ]);
 
       const testimonials = testimonialsRes.data || [];
@@ -122,7 +122,7 @@ export default function DashboardHome() {
       value: stats.totalImages,
       icon: <ImageIcon size={28} />,
       color: "from-green-400/20 to-green-100/10",
-      link: "/admin/dashboard/gallery",
+      link: "/admin/dashboard/MangeGallery",
     },
     {
       label: "Total Testimonials",

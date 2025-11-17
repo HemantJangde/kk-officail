@@ -24,25 +24,51 @@ export const loginAdmin = async (req, res) => {
 };
 
 // ✅ FORGOT PASSWORD (send OTP)
+// export const forgotPassword = async (req, res) => {
+//   try {
+//     const { email } = req.body;
+//     const admin = await Admin.findOne({ email });
+//     if (!admin) return res.status(404).json({ success: false, message: "Email not found" });
+
+//     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+//     admin.otp = otp;
+//     admin.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes
+//     await admin.save();
+
+//     await sendEmail(email, "Password Reset OTP", `<p>Your OTP is <b>${otp}</b>. It expires in 5 minutes.</p>`);
+
+//     res.status(200).json({ success: true, message: "OTP sent to email" });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ success: false, message: "Server error" });
+//   }
+// };
 export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
+    console.log("Forgot password request for:", email);
+
     const admin = await Admin.findOne({ email });
     if (!admin) return res.status(404).json({ success: false, message: "Email not found" });
 
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    console.log("Generated OTP:", otp);
+
     admin.otp = otp;
     admin.otpExpiry = Date.now() + 5 * 60 * 1000; // 5 minutes
     await admin.save();
+    console.log("OTP saved to DB");
 
     await sendEmail(email, "Password Reset OTP", `<p>Your OTP is <b>${otp}</b>. It expires in 5 minutes.</p>`);
+    console.log("Email sent");
 
     res.status(200).json({ success: true, message: "OTP sent to email" });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ success: false, message: "Server error" });
+    console.error("Forgot password error:", error);
+    res.status(500).json({ success: false, message: "Server error", error: error.message });
   }
 };
+
 
 // ✅ RESET PASSWORD
 export const resetPassword = async (req, res) => {

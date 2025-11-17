@@ -14,7 +14,7 @@ export default function AllTeam() {
   useEffect(() => {
     const fetchAllTeam = async () => {
       try {
-        const res = await axios.get(`https://kk-officail.onrender.com/api/team`);
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/team`);
         const allTeam = res.data?.team || [];
 
         const sortedTeam = allTeam.sort(

@@ -17,7 +17,7 @@ export default function useScrollReveal(options = {}) {
         if (entry.isIntersecting) {
           element.classList.add("reveal-active");
         } else {
-          element.classList.remove("reveal-active"); // ✅ works both ways (scroll up/down)
+          // element.classList.remove("reveal-active"); // ✅ works both ways (scroll up/down)
         }
       });
     }, defaultOptions);

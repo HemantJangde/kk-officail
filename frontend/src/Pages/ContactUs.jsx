@@ -33,7 +33,7 @@ export default function ContactUs() {
     setLoading(true);
 
     try {
-      const res = await fetch(`https://kk-officail.onrender.com/api/contact`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),

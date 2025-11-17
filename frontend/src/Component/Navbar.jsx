@@ -163,6 +163,7 @@ export default function Navbar() {
             { label: "About Us", to: "/feature" },
             { label: "Services", to: "/allservices" },
             { label: "Projects", to: "/projects" },
+              { label: "Gallery", to: "/gallery" },
             { label: "Contact Us", to: "/contact" },
           ].map((item) => (
             <Link

@@ -22,7 +22,7 @@ export default function ContactSubmissions() {
   const fetchContacts = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`https://kk-officail.onrender.com/api/all`);
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/all`);
       const data = Array.isArray(res.data.data) ? res.data.data : [];
       setContacts(data);
       setFilteredContacts(data);
@@ -58,7 +58,7 @@ export default function ContactSubmissions() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this contact?")) return;
     try {
-      await axios.delete(`https://kk-officail.onrender.com/api/${id}`);
+      await axios.delete(`${import.meta.env.VITE_API_URL}/${id}`);
       setContacts((prev) => prev.filter((c) => c._id !== id));
     } catch (err) {
       console.error("Error deleting contact:", err);
