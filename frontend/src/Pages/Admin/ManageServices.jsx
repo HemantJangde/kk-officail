@@ -26,7 +26,7 @@ export default function ManageServices() {
   // ✅ Fetch All Services
   const fetchServices = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/services`);
+      const res = await axios.get(`http://localhost:5000/api/services`);
       setServices(res.data?.services || []);
     } catch (error) {
       console.error("Error fetching services:", error);
@@ -61,13 +61,13 @@ export default function ManageServices() {
     try {
       if (editingService) {
         await axios.put(
-          `${import.meta.env.VITE_API_URL}/services/${editingService._id}`,
+          `http://localhost:5000/api/services/${editingService._id}`,
           data,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
         toast.success("Service updated successfully!");
       } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/services`, data, {
+        await axios.post(`http://localhost:5000/api/services`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
         toast.success("Service added successfully!");
@@ -91,7 +91,7 @@ export default function ManageServices() {
 
     try {
       setUploading(true);
-      await axios.delete(`${import.meta.env.VITE_API_URL}/services/${id}`);
+      await axios.delete(`http://localhost:5000/api/services/${id}`);
       toast.success("Service deleted successfully!");
       fetchServices();
     } catch (error) {

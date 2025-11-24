@@ -21,7 +21,7 @@ export default function AdminTestimonials() {
 
   const fetchTestimonials = async () => {
     try {
-      const res = await axios.get(`${import.meta.env.VITE_API_URL}/testimonials`);
+      const res = await axios.get(`http://localhost:5000/api/testimonials`);
       setTestimonials(res.data);
     } catch (error) {
       console.error("Error fetching testimonials:", error);
@@ -58,11 +58,11 @@ export default function AdminTestimonials() {
       if (formData.image) data.append("image", formData.image);
 
       if (editingId) {
-        await axios.put(`${import.meta.env.VITE_API_URL}/testimonials/${editingId}`, data, {
+        await axios.put(`http://localhost:5000/api/testimonials/${editingId}`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       } else {
-        await axios.post(`${import.meta.env.VITE_API_URL}/testimonials`, data, {
+        await axios.post(`http://localhost:5000/api/testimonials`, data, {
           headers: { "Content-Type": "multipart/form-data" },
         });
       }
@@ -100,7 +100,7 @@ export default function AdminTestimonials() {
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this testimonial?")) return;
     try {
-      await axios.delete(`${import.meta.env.VITE_API_URL}/testimonials/${id}`);
+      await axios.delete(`http://localhost:5000/api/testimonials/${id}`);
       fetchTestimonials();
     } catch (error) {
       console.error("Error deleting testimonial:", error);

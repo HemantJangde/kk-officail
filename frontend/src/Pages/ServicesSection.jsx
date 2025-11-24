@@ -15,7 +15,7 @@ export default function ServicesSection() {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/services`);
+        const res = await axios.get(`http://localhost:5000/api/services`);
         const all = Array.isArray(res.data) ? res.data : res.data.services || [];
 
         const sorted = [...all].sort((a, b) =>

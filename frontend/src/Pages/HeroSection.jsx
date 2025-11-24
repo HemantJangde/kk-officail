@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import TeamImage from "../assets/team.jpeg";
+import TeamImage from "../assets/team.jpg";
 import { Cover } from "../Component/ui/cover";
 import AnimatedCounter from "../Component/AnimatedCounter";
 import useScrollReveal from "../Hooks/useScrollReveal";

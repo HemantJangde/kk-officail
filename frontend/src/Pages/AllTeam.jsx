@@ -14,7 +14,7 @@ export default function AllTeam() {
   useEffect(() => {
     const fetchAllTeam = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/team`);
+        const res = await axios.get(`http://localhost:5000/api/team`);
         const allTeam = res.data?.team || [];
 
         const sortedTeam = allTeam.sort(

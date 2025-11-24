@@ -10,7 +10,7 @@ export default function ForgotPassword() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`${import.meta.env.VITE_API_URL}/admin/forgot-password`, { email });
+      const res = await axios.post(`http://localhost:5000/api/admin/forgot-password`, { email });
       setMessage(res.data.message);
       navigate("/admin/reset-password", { state: { email } });
     } catch (err) {

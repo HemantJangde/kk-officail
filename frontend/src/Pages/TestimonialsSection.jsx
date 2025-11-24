@@ -16,7 +16,7 @@ export default function TestimonialsSection() {
 
   useEffect(() => {
     axios
-      .get(`${import.meta.env.VITE_API_URL}/testimonials`)
+      .get(`http://localhost:5000/api/testimonials`)
       .then((res) => setTestimonials(res.data))
       .catch((err) => console.error("Error fetching testimonials:", err));
   }, []);

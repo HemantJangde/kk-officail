@@ -22,7 +22,7 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get(`${import.meta.env.VITE_API_URL}/projects`);
+        const res = await axios.get(`http://localhost:5000/api/projects`);
         setProjects(res.data.projects || []);
         setFilteredProjects(res.data.projects || []);
       } catch (err) {

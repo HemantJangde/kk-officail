@@ -35,12 +35,12 @@ export default function DashboardHome() {
         testimonialsRes,
         galleryRes,
       ] = await Promise.all([
-        axios.get(`${import.meta.env.VITE_API_URL}/projects`),
-        axios.get(`${import.meta.env.VITE_API_URL}/services`),
-        axios.get(`${import.meta.env.VITE_API_URL}/team`),
-        axios.get(`${import.meta.env.VITE_API_URL}/all`),
-        axios.get(`${import.meta.env.VITE_API_URL}/testimonials`),
-        axios.get(`${import.meta.env.VITE_API_URL}/gallery`), // change to your deployed link if hosted
+        axios.get(`http://localhost:5000/api/projects`),
+        axios.get(`http://localhost:5000/api/services`),
+        axios.get(`http://localhost:5000/api/team`),
+        axios.get(`http://localhost:5000/api/all`),
+        axios.get(`http://localhost:5000/api/testimonials`),
+        axios.get(`http://localhost:5000/api/gallery`), // change to your deployed link if hosted
       ]);
 
       const testimonials = testimonialsRes.data || [];

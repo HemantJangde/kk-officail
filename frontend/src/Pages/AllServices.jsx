@@ -18,7 +18,7 @@ export default function AllServices() {
     const fetchServices = async () => {
       try {
         const res = await axios.get(
-          `${import.meta.env.VITE_API_URL}/services`
+          `http://localhost:5000/api/services`
         );
         console.log("allservice ", services);
         setServices(res.data.services || []);
