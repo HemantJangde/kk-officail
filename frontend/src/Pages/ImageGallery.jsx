@@ -13,7 +13,7 @@ const ImageGallery = () => {
   useEffect(() => {
     const fetchImages = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/gallery`);
+        const res = await axios.get(`https://kk-officail.onrender.com/api/gallery`);
         setImages(res.data);
       } catch (error) {
         console.error("Error fetching images:", error);
@@ -26,7 +26,7 @@ const ImageGallery = () => {
 
   if (loading) {
     return (
-      <section ref={sectionRef} className="px-4 py-20 bg-gray-50 text-center">
+      <section ref={sectionRef} className="px-4 mt-20 py-20 bg-gray-50 text-center">
         <div className="text-gray-500 text-lg animate-pulse">Loading gallery...</div>
       </section>
     );
@@ -49,9 +49,9 @@ const ImageGallery = () => {
   };
 
   return (
-    <section ref={sectionRef} className="px-4 py-10  bg-gray-50">
+    <section ref={sectionRef} className="px-4 py-10 mt-10 bg-gray-50">
       <h3 className="text-3xl font-bold text-center text-gray-800 mb-8">
-        Image Gallery
+        {/* Image Gallery */}
       </h3>
 
       <Masonry

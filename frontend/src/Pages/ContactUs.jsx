@@ -1,7 +1,8 @@
 import { useState } from "react";
 import toast from "react-hot-toast";
-import { Phone, Mail, MapPin, LucideYoutube } from "lucide-react";
+import { Phone, MapPin, LucideYoutube } from "lucide-react";
 import useScrollReveal from "../Hooks/useScrollReveal";
+import emailjs from "@emailjs/browser";
 
 const socialLinks = [
   { Icon: LucideYoutube, url: "https://youtube.com/@kkconatruction?si=LwMQQZ6nUOsupFhu" },
@@ -27,13 +28,38 @@ export default function ContactUs() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  // ✅ Form Submission Handler
+    const templateParams = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      message: formData.message,
+    };
+  // ✅ Form Submission Handler 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
+        try {
+      await emailjs.send(
+        "service_0k2cc5j",       // Your EmailJS service ID
+        "template_qcrg1uf",      // Your EmailJS template ID
+        templateParams,
+        "RWyzUTs_BYw3BRzxq"      // Your EmailJS public key
+      );
+
+      toast.success("Message sent successfully! 🚀");
+      setFormData({ name: "", email: "", phone: "", message: "" });
+
+    } catch (error) {
+      toast.error("Failed to send message ❌");
+      console.error("EmailJS error:", error);
+
+    } finally {
+      setLoading(false);
+    }
+    
     try {
-      const res = await fetch(`http://localhost:5000/api/contact`, {
+      const res = await fetch(`https://kk-officail.onrender.com/api/contact`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -45,10 +71,10 @@ export default function ContactUs() {
         toast.success("Message sent successfully! 🚀");
         setFormData({ name: "", email: "", phone: "", message: "" });
       } else {
-        toast.error(data.message || "Failed to send message ❌");
+        // toast.error(data.message || "Failed to send message ❌");
       }
     } catch (err) {
-      toast.error("Server error. Try again later ⚠️");
+      // toast.error("Server error. Try again later ⚠️");
     } finally {
       setLoading(false);
     }
@@ -156,7 +182,7 @@ export default function ContactUs() {
                   <Phone className="w-4 h-4 text-orange-500" /> +91 83191 82281
                 </p>
                 <p className="text-gray-300 flex items-center gap-2">
-                  <Mail className="w-4 h-4 text-orange-500" /> kkconstruction881@gmail.com
+                kkconstruction881@gmail.com
                 </p>
               </div>
 

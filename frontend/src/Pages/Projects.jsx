@@ -4,6 +4,8 @@ import axios from "axios";
 import { MapPin, Ruler, Clock, Loader, Search, X } from "lucide-react";
 import { CometCard } from "../Component/ui/comet-card.jsx";
 import useScrollReveal from "../Hooks/useScrollReveal";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Projects() {
   const [projects, setProjects] = useState([]);
@@ -12,6 +14,7 @@ export default function Projects() {
   const [searchTerm, setSearchTerm] = useState("");
   const [filterType, setFilterType] = useState("All");
   const [selectedProject, setSelectedProject] = useState(null);
+const navigate = useNavigate();
 
   // ✅ Scroll Reveal Refs
   const sectionRef = useScrollReveal();
@@ -22,7 +25,7 @@ export default function Projects() {
   useEffect(() => {
     const fetchProjects = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/projects`);
+        const res = await axios.get(`https://kk-officail.onrender.com/api/projects`);
         setProjects(res.data.projects || []);
         setFilteredProjects(res.data.projects || []);
       } catch (err) {
@@ -82,7 +85,7 @@ export default function Projects() {
         {/* Search + Filter */}
         <div
           ref={filterRef}
-          className="opacity-0 translate-y-8 transition-all duration-700 flex flex-col md:flex-row items-center justify-between gap-4 mb-12"
+          className="opacity-0 translate-y-8 transition-all duration-700 flex flex-col md:flex-row items-center justify-around gap-4 mb-12"
         >
           <div className="relative w-full md:w-1/2">
             <Search className="absolute left-3 top-3 text-gray-400 w-5 h-5" />
@@ -95,15 +98,7 @@ export default function Projects() {
             />
           </div>
 
-          <select
-            value={filterType}
-            onChange={(e) => setFilterType(e.target.value)}
-            className="bg-[#0C226B] border border-white/10 rounded-full py-2.5 px-4 text-sm text-white focus:outline-none focus:ring-2 focus:ring-orange-500 transition-all"
-          >
-            <option value="All">All Types</option>
-            <option value="Residential">Residential</option>
-            <option value="Commercial">Commercial</option>
-          </select>
+        
         </div>
 
         {/* Projects Grid */}
@@ -117,7 +112,8 @@ export default function Projects() {
             {filteredProjects.map((project) => (
               <div
                 key={project._id}
-                onClick={() => setSelectedProject(project)}
+              onClick={() => navigate(`/project/${project._id}`)}
+
                 className="bg-[#0C226B] rounded-2xl overflow-hidden shadow-lg cursor-pointer hover:-translate-y-2 transition-all"
               >
                 <CometCard>
@@ -150,32 +146,8 @@ export default function Projects() {
         )}
       </div>
 
-      {/* ✅ Modal (UNCHANGED) */}
-      {selectedProject && (
-        <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50 p-4">
-          <div className="bg-[#0C226B] rounded-2xl max-w-3xl w-full text-white shadow-xl overflow-hidden relative">
-            <button
-              onClick={() => setSelectedProject(null)}
-              className="absolute top-4 right-4 text-gray-300 hover:text-orange-500 transition"
-            >
-              <X className="w-6 h-6" />
-            </button>
-
-            <div
-              className="h-64 bg-cover bg-center"
-              style={{
-                backgroundImage: `url(${selectedProject.image})`,
-              }}
-            ></div>
-
-            <div className="p-6">
-              <h3 className="text-2xl font-bold mb-2">{selectedProject.title}</h3>
-              <p className="text-gray-300 mb-4">{selectedProject.desc}</p>
-           <p> <strong className="text-orange-500">📍 Location:</strong>{" "} {selectedProject.location} </p> <p> <strong className="text-orange-500">📐 Area:</strong>{" "} {selectedProject.area} </p> <p> <strong className="text-orange-500">⏱ Duration:</strong>{" "} {selectedProject.duration} </p> <p> <strong className="text-orange-500">📅 Year:</strong>{" "} {selectedProject.year} </p> <p> <strong className="text-orange-500">🏗 Type:</strong>{" "} {selectedProject.type} </p>
-            </div>
-          </div>
-        </div>
-      )}
+      
+     
     </section>
   );
 }

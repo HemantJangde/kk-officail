@@ -14,7 +14,7 @@ export default function ResetPassword() {
   const handleReset = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://localhost:5000/api/admin/reset-password`, { email, otp, newPassword });
+      const res = await axios.post(`https://kk-officail.onrender.com/api/admin/reset-password`, { email, otp, newPassword });
       setMessage(res.data.message);
       navigate("/admin/login");
     } catch (err) {

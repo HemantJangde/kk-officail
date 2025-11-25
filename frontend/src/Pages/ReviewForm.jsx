@@ -46,7 +46,7 @@ export default function ReviewForm() {
       data.append("rating", formData.rating);
       if (formData.image) data.append("image", formData.image);
 
-      await axios.post(`http://localhost:5000/api/testimonials`, data, {
+      await axios.post(`https://kk-officail.onrender.com/api/testimonials`, data, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 

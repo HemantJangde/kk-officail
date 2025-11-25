@@ -27,7 +27,7 @@ export default function ManageProjects() {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/api/projects`);
+      const res = await axios.get(`https://kk-officail.onrender.com/api/projects`);
       setProjects(res.data.projects || []);
     } catch {
       toast.error("Failed to load projects.");
@@ -50,7 +50,7 @@ export default function ManageProjects() {
       Object.keys(form).forEach((key) => formData.append(key, form[key]));
 
       const res = await axios.post(
-        `http://localhost:5000/api/projects`,
+        `https://kk-officail.onrender.com/api/projects`,
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -82,7 +82,7 @@ export default function ManageProjects() {
   const handleDelete = async (id) => {
     if (!window.confirm("Delete this project?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/projects/${id}`);
+      await axios.delete(`https://kk-officail.onrender.com/api/projects/${id}`);
       setProjects((prev) => prev.filter((p) => p._id !== id));
       toast.success("🗑️ Project deleted!");
     } catch {
@@ -99,7 +99,7 @@ export default function ManageProjects() {
       );
 
       const res = await axios.put(
-        `http://localhost:5000/api/projects/${editProject._id}`,
+        `https://kk-officail.onrender.com/api/projects/${editProject._id}`,
         formData,
         { headers: { "Content-Type": "multipart/form-data" } }
       );

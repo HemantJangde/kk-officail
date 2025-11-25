@@ -37,6 +37,8 @@ import { initScrollAnimations } from "./animations/scrollAnimations";
 import { useEffect } from "react";
 import ImageGallery from "./Pages/ImageGallery.jsx";
 import ManageGallery from "./Pages/Admin/ManageGallery.jsx";
+import ProjectDetails from "./Pages/ProjectDetails.jsx";
+import ServiceDetails from "./Pages/ServiceDetails.jsx";
 
 
   
@@ -80,6 +82,8 @@ function App() {
           <Route path="/review" element={<ReviewForm />} />
           <Route path="/testimonials" element={<TestimonialsSection />} />
              <Route path="/gallery" element={<ImageGallery />} />
+               <Route path="/project/:id" element={<ProjectDetails />} />
+                 <Route path="/service/:id" element={<ServiceDetails />} />
         </Route>
 
         {/* Public Admin Auth Pages */}

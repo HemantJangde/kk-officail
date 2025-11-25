@@ -9,7 +9,7 @@ const ManageGallery = () => {
   const [loading, setLoading] = useState(false);
 
   const fetchImages = async () => {
-    const res = await axios.get(`http://localhost:5000/api/gallery`);
+    const res = await axios.get(`https://kk-officail.onrender.com/api/gallery`);
     setImages(res.data);
   };
 
@@ -26,7 +26,7 @@ const ManageGallery = () => {
     formData.append("title", title);
 
     setLoading(true);
-    await axios.post(`http://localhost:5000/api/gallery/upload`, formData);
+    await axios.post(`https://kk-officail.onrender.com/api/gallery/upload`, formData);
     setLoading(false);
     setFile(null);
     setTitle("");
@@ -35,7 +35,7 @@ const ManageGallery = () => {
 
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this image?")) return;
-    await axios.delete(`http://localhost:5000/api/gallery/${id}`);
+    await axios.delete(`https://kk-officail.onrender.com/api/gallery/${id}`);
     fetchImages();
   };
 

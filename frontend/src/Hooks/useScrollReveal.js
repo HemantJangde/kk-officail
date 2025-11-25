@@ -8,7 +8,7 @@ export default function useScrollReveal(options = {}) {
     if (!element) return;
 
     const defaultOptions = {
-      threshold: 0.2, // trigger when 20% of the section is visible
+      threshold: 0.1, // trigger when 20% of the section is visible
       ...options,
     };
 

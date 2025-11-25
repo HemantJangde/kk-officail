@@ -52,3 +52,4 @@ export const sendEmail = async (to, subject, html) => {
     throw new Error("Email not sent");
   }
 };
+

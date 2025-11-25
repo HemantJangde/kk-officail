@@ -11,11 +11,11 @@ export default function ServicesSection() {
   const [selectedService, setSelectedService] = useState(null);
 
   const revealRef = useScrollReveal(); // ✅ Scroll animation ref
-
+   const gridRef = useScrollReveal()
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get(`http://localhost:5000/api/services`);
+        const res = await axios.get(`https://kk-officail.onrender.com/api/services`);
         const all = Array.isArray(res.data) ? res.data : res.data.services || [];
 
         const sorted = [...all].sort((a, b) =>
@@ -61,6 +61,7 @@ export default function ServicesSection() {
             whileInView="show"
             viewport={{ once: false, amount: 0.3 }}
             transition={{ staggerChildren: 0.25 }}
+               ref={gridRef}
           >
             {services.map((service) => (
               <motion.div
