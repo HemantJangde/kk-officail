@@ -70,7 +70,7 @@ export default function AllServices() {
   return (
     <section
       ref={sectionRef}
-      className="bg-white text-gray-800 py-20 min-h-screen reveal-section mt-10"
+      className="bg-white text-gray-800 py-20 min-h-screen reveal-section mt-5"
     >
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}

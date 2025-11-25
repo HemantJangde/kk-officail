@@ -27,7 +27,7 @@ section {
 .reveal-active,
 section.reveal-active {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateY(1);
 }
 
 /* Optional utility class for forced visibility */
